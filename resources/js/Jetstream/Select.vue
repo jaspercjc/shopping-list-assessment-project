@@ -18,6 +18,7 @@ defineEmits(["update:modelValue"]);
             :key="option.value"
             :value="option.value"
             class="p-4"
+            :disabled="option.disabled"
         >
             {{ option.label }}
         </option>

@@ -45,4 +45,8 @@ class Department extends Model
         return $this->hasMany(Item::class);
     }
 
+    public function item_list(){
+        return $this->hasManyThrough(ItemList::class, Item::class, 'department_id', 'item_id', 'id', 'id');
+    }
+
 }

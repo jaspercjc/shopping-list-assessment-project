@@ -38,7 +38,6 @@ Route::middleware([
 
     Route::resource( "/departments", \App\Http\Controllers\DepartmentController::class );
     Route::resource( "/items", \App\Http\Controllers\ItemController::class );
-
-
+    Route::resource( "/lists", \App\Http\Controllers\ItemListController::class );
 });
 

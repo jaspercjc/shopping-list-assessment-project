@@ -6,21 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Item extends Model
+class ItemList extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'department_id',
+        'quantity',
+        'purchased',
+        'item_id'
     ];
 
-    public function department(){
-        return $this->belongsTo(Department::class);
-    }
-
     public function item(){
-        return $this->hasMany(ItemList::class);
+        return $this->belongsTo(Item::class);
     }
+    
 }
