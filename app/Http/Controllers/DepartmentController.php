@@ -59,6 +59,7 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
+        $department->refresh()->load('items');
         return Inertia::render('Department/Edit', compact('department'));
     }
 
@@ -70,10 +71,8 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
+        $department->refresh()->load('items');
         return Inertia::render('Department/Edit', compact('department'));
-
-
-
     }
 
     /**

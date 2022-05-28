@@ -1,9 +1,9 @@
 <template>
     <app-layout>
-        <Head title="Department" />
+        <Head title="Edit Item" />
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Department
+                Edit Item
             </h2>
         </template>
         <div class="py-12">
@@ -11,7 +11,7 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="flex justify-end py-4 px-8 space-x-4">
                         <Link
-                            :href="route('departments.index')"
+                            :href="route('items.index')"
                             class="underline cursor-pointer"
                             >Cancel</Link
                         >
@@ -28,9 +28,9 @@
                     </div>
 
                     <div class="px-8 my-16 h-screen">
-                        <form @submit.prevent="submit">
+                        <form @submit.prevent="submit" class="space-y-4">
                             <div>
-                                <JetLabel for="name" value="Department Name" />
+                                <JetLabel for="name" value="Item Name" />
                                 <span
                                     v-if="form.errors.name"
                                     class="text-red-500 text-xs"
@@ -44,37 +44,32 @@
                                     required
                                     autofocus
                                     autocomplete="name"
+                                    :class="form.errors.name && 'bg-red-200'"
+                                />
+                            </div>
+                            <div>
+                                <JetLabel
+                                    for="department"
+                                    value="Item Department"
+                                />
+                                <span
+                                    v-if="form.errors.department_id"
+                                    class="text-red-500 text-xs"
+                                    >{{ form.errors.department_id }}</span
+                                >
+                                <JetSelect
+                                    id="department"
+                                    v-model="form.department_id"
+                                    class="mt-1 block w-full"
+                                    required
+                                    :options="options"
+                                    :class="
+                                        form.errors.department_id &&
+                                        'bg-red-200'
+                                    "
                                 />
                             </div>
                         </form>
-
-                        <section class="mt-16">
-                            <div
-                                class="py-4 items-center border-b-2 border-gray-200"
-                            >
-                                <span class="font-bold text-2xl">Items</span>
-                            </div>
-                            <ol
-                                class="px-8 space-y-4 divide-y divide-y-gray-50"
-                            >
-                                <li
-                                    v-for="item in department.items"
-                                    class="px-8 py-4 flex justify-between items-center"
-                                    :key="item.id"
-                                >
-                                    <Link
-                                        class="block"
-                                        :href="route('items.edit', item)"
-                                        >{{ item.name }}</Link
-                                    >
-                                    <span
-                                        class="underline cursor-pointer text-xs"
-                                        @click="destroy(item.id)"
-                                        >Delete</span
-                                    >
-                                </li>
-                            </ol>
-                        </section>
                     </div>
                 </div>
             </div>
@@ -87,17 +82,31 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import JetInput from "@/Jetstream/Input.vue";
 import JetLabel from "@/Jetstream/Label.vue";
-
-const props = defineProps({
-    department: Object,
-});
+import JetSelect from "@/Jetstream/Select.vue";
+import { computed } from "vue";
 
 const form = useForm({
-    name: props.department.name,
+    name: props.item.name,
+    department_id: props.item.department_id,
+});
+
+const props = defineProps({
+    item: Object,
+    departments: Array,
+});
+
+const options = computed(() => {
+    return [
+        { value: "", label: "Please select" },
+        ...props.departments.map((department) => ({
+            value: department.id,
+            label: department.name,
+        })),
+    ];
 });
 
 const submit = () => {
-    if (form.isDirty) form.put(route("departments.update", props.department));
+    if (form.isDirty) form.put(route("items.update", props.item));
 };
 </script>
 
