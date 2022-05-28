@@ -87,6 +87,9 @@ const submit = () => {
         axios
             .post(route("lists.store"), form)
             .then(() => {
+                form.quantity = 1;
+                form.item_id = "";
+                form.errors = { item_id: null, quantity: null };
                 emit("created");
             })
             .catch((err) => {

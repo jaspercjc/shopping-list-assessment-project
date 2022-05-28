@@ -49,31 +49,7 @@
                         </form>
 
                         <section class="mt-16">
-                            <div
-                                class="py-4 items-center border-b-2 border-gray-200"
-                            >
-                                <span class="font-bold text-2xl">Items</span>
-                            </div>
-                            <ol
-                                class="px-8 space-y-4 divide-y divide-y-gray-50"
-                            >
-                                <li
-                                    v-for="item in department.items"
-                                    class="px-8 py-4 flex justify-between items-center"
-                                    :key="item.id"
-                                >
-                                    <Link
-                                        class="block"
-                                        :href="route('items.edit', item)"
-                                        >{{ item.name }}</Link
-                                    >
-                                    <span
-                                        class="underline cursor-pointer text-xs"
-                                        @click="destroy(item.id)"
-                                        >Delete</span
-                                    >
-                                </li>
-                            </ol>
+                            <Items :items="department.items" />
                         </section>
                     </div>
                 </div>
@@ -87,6 +63,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import JetInput from "@/Jetstream/Input.vue";
 import JetLabel from "@/Jetstream/Label.vue";
+import Items from "@/Pages/Item/Components/Items.vue";
 
 const props = defineProps({
     department: Object,

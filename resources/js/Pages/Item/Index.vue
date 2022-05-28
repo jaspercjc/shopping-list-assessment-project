@@ -22,33 +22,11 @@
                             v-for="department in departments"
                             :key="department.id"
                         >
-                            <div
-                                class="px-8 py-4 items-center border-b-2 border-gray-200"
-                            >
-                                <span class="font-bold text-2xl">{{
-                                    department.name
-                                }}</span>
-                            </div>
-                            <ol
-                                class="px-8 space-y-4 divide-y divide-y-gray-50"
-                            >
-                                <li
-                                    v-for="item in department.items"
-                                    class="px-8 py-4 flex justify-between items-center"
-                                    :key="item.id"
-                                >
-                                    <Link
-                                        class="block"
-                                        :href="route('items.edit', item)"
-                                        >{{ item.name }}</Link
-                                    >
-                                    <span
-                                        class="underline cursor-pointer text-xs"
-                                        @click="destroy(item.id)"
-                                        >Delete</span
-                                    >
-                                </li>
-                            </ol>
+                            <Items :items="department.items">
+                                <template #header>
+                                    {{ department.name }}
+                                </template>
+                            </Items>
                         </template>
                     </div>
                 </div>
@@ -60,21 +38,11 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link, Head } from "@inertiajs/inertia-vue3";
-import { Inertia } from "@inertiajs/inertia";
+import Items from "@/Pages/Item/Components/Items.vue";
 
 defineProps({
     departments: Array,
 });
-
-const destroy = (id) => {
-    axios
-        .delete(route("items.destroy", id), {
-            maxRedirects: 0,
-        })
-        .then(function (response) {
-            Inertia.reload();
-        });
-};
 </script>
 
 <style scoped></style>
